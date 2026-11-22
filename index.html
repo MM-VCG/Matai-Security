@@ -19,9 +19,7 @@
         <span class="hero__line">Calm Presence.</span>
         <span class="hero__line hero__line--accent">Clear Protection.</span>
       </h1>
-      <div class="crop hero__logo">
-        <img src="assets/images/matai-logo.png" alt="Matai Security Group Ltd">
-      </div>
+      <img class="hero__logo" src="assets/images/matai-logo-full-light.png" alt="Matai Security Group Ltd">
     </div>
     <div class="hero__overview">
       <div class="hero__content">
@@ -36,16 +34,25 @@
   <!-- Navigation -->
   <header class="nav">
     <a href="#top" class="brand" aria-label="Matai Security Group, back to top">
-      <span class="logo" aria-hidden="true">
-        <span class="crop logo__mark"><img src="assets/images/matai-logo.png" alt=""></span>
-        <span class="crop logo__word"><img src="assets/images/matai-logo.png" alt=""></span>
-      </span>
+      <img class="brand__logo" src="assets/images/matai-m-dark.png" width="90" height="60" alt="">
     </a>
-    <a href="#contact" class="nav__cta" data-roll>Contact</a>
     <nav class="nav__links" aria-label="Main">
       <a href="#services" class="nav__action">Services</a>
       <a href="#about" class="nav__action">About</a>
       <a href="#contact" class="nav__action nav__action--contact" data-roll>Contact</a>
+    </nav>
+  </header>
+
+  <!-- Mobile only: compact header that slides in once the hero has scrolled
+       out of view (Figma "Navigation" 64:238). Toggled by js/main.js. -->
+  <header class="mobile-bar" aria-label="Site" inert>
+    <a href="#top" class="mobile-bar__brand" aria-label="Matai Security Group, back to top">
+      <img src="assets/images/matai-m-dark.png" width="72" height="48" alt="">
+    </a>
+    <nav class="mobile-bar__links" aria-label="Main">
+      <a href="#services" class="mobile-bar__link">Services</a>
+      <a href="#about" class="mobile-bar__link">About</a>
+      <a href="#contact" class="mobile-bar__cta" data-roll>Contact</a>
     </nav>
   </header>
 

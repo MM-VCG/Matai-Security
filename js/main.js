@@ -21,3 +21,20 @@ document.querySelectorAll('[data-roll]').forEach((button) => {
 
   button.replaceChildren(label);
 });
+
+// Mobile compact header: show it once the hero has scrolled fully above the
+// screen, hide it again when scrolling back up into the hero.
+const hero = document.querySelector('.hero');
+const mobileBar = document.querySelector('.mobile-bar');
+
+if (hero && mobileBar) {
+  const update = () => {
+    const pastHero = hero.getBoundingClientRect().bottom <= 0;
+    if (pastHero === mobileBar.classList.contains('is-visible')) return;
+    mobileBar.classList.toggle('is-visible', pastHero);
+    mobileBar.inert = !pastHero;
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}

@@ -11,7 +11,7 @@
   --muted-light: #e5e7eb;
   --white: #ffffff;
 
-  --gutter: 80px;      /* sections below the hero */
+  --gutter: 88px;      /* page side margin (desktop) */
   --nav-gutter: 88px;  /* navigation + footer */
 
   /* Above a 1440px-wide window the content stops growing: the extra width
@@ -93,7 +93,7 @@ img { display: block; }
   display: flex;
   flex-direction: column;
   gap: 44px;
-  padding: 112px calc(112px + var(--edge));
+  padding: 112px calc(var(--gutter) + var(--edge));
   background: var(--dark);
   overflow: hidden;
 }
@@ -114,8 +114,7 @@ img { display: block; }
 .hero__line { display: block; }
 .hero__line--accent { color: var(--mint); }
 
-.hero__logo { width: 180px; height: 155px; }
-.hero__logo > img { width: 125.63%; height: 315.23%; left: -12.62%; top: -101.38%; }
+.hero__logo { display: block; flex-shrink: 0; width: 180px; height: 180px; object-fit: contain; }
 
 .hero__overview { display: flex; align-items: flex-start; gap: 56px; }
 
@@ -167,18 +166,7 @@ img { display: block; }
 
 .brand { display: block; }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8.276px;
-  padding: 6.207px 10.345px;
-  border-radius: 6.207px;
-  background: var(--ink);
-}
-.logo__mark { width: 47.586px; height: 47.586px; }
-.logo__mark > img { width: 207.46%; height: 448.26%; left: -53.86%; top: -144.17%; }
-.logo__word { width: 93.103px; height: 23.276px; }
-.logo__word > img { width: 125.63%; height: 1085.79%; left: -12.62%; top: -593.66%; }
+.brand__logo { width: 90px; height: 60px; object-fit: contain; }
 
 .nav__links { display: flex; align-items: center; gap: 16px; }
 
@@ -202,8 +190,8 @@ img { display: block; }
 }
 .nav__action--contact:hover { opacity: 1; background: #4fd84f; }
 
-/* Mobile-only green Contact button in the nav */
-.nav__cta { display: none; }
+/* Mobile-only compact header, revealed after the hero (see mobile query) */
+.mobile-bar { display: none; }
 
 /* Desktop: nav sticks to the top once the hero has scrolled past.
    scroll-padding keeps anchor links from landing under it. */
@@ -381,6 +369,9 @@ img { display: block; }
    keeps a usable size instead of being squeezed out.
    ===================================================================== */
 @media (min-width: 768px) and (max-width: 1024px) {
+  /* One page margin for every section on tablet */
+  :root { --gutter: 56px; --nav-gutter: 56px; }
+
   .about { flex-direction: column; align-items: stretch; gap: 48px; }
   .about__narrative { flex: none; }
   .about__visual { flex: none; width: 100%; }
@@ -391,14 +382,14 @@ img { display: block; }
    Headline + logo on top, then description, button and photo stacked.
    ===================================================================== */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .hero { padding: 112px 72px; }
+  .hero { padding: 112px var(--gutter); }
 
   .hero__headline {
     font-size: 60px;
     line-height: 67px; /* Figma 1.12 */
     letter-spacing: -0.6px;
   }
-  .hero__logo { width: 130px; height: 112px; }
+  .hero__logo { width: 130px; height: 130px; }
 
   .hero__overview { flex-direction: column; gap: 56px; }
   .hero__content { flex: none; width: 100%; }
@@ -409,62 +400,80 @@ img { display: block; }
    Mobile: Figma frame "Matai Security — Mobile" (390px)
    ===================================================================== */
 @media (max-width: 767px) {
-  :root { --gutter: 24px; --nav-gutter: 24px; }
+  :root { --gutter: 20px; --nav-gutter: 20px; }
 
-  /* Navigation comes first on mobile */
-  body { display: flex; flex-direction: column; }
-  .nav { order: -1; }
+  /* The full nav is desktop/tablet only; mobile uses .mobile-bar */
+  .nav { display: none; }
 
   .heading-62,
   .heading-72 { font-size: 36px; letter-spacing: -0.36px; }
 
-  /* Navigation: logo + green Contact on row 1, right-aligned links on row 2 */
-  .nav {
-    flex-wrap: wrap;
-    row-gap: 8px;
+  /* Compact header (Figma "Navigation" 64:238): fixed to the top, hidden
+     above the screen until the hero has scrolled out of view. */
+  .mobile-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     padding: 20px var(--gutter) 12px;
+    background: var(--white);
+    box-shadow: 0 1px 0 var(--muted-light);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform .3s ease, visibility 0s linear .3s;
   }
-  .logo {
-    gap: 6.667px;
-    padding: 4.833px 6.444px;
-    border-radius: 5px;
+  .mobile-bar.is-visible {
+    transform: none;
+    visibility: visible;
+    transition: transform .3s ease, visibility 0s;
   }
-  .logo__mark { width: 38.333px; height: 38.333px; }
-  .logo__word { width: 75px; height: 18.75px; }
-
-  .nav__cta {
+  .mobile-bar__brand img { width: 72px; height: 48px; object-fit: contain; }
+  .mobile-bar__links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .mobile-bar__link {
+    display: flex;
+    flex: 1 0 0;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .mobile-bar__cta {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 104px;
     height: 48px;
-    padding: 12px 16px;
+    padding: 12px 32px;
     border-radius: 8px;
     background: var(--acid);
     font-size: 14px;
     font-weight: 500;
     line-height: 1.3;
   }
+  /* Anchor links land below the bar (it is ~132px tall) */
+  html { scroll-padding-top: 140px; }
 
-  .nav__links { flex-basis: 100%; justify-content: flex-end; gap: 24px; }
-  .nav__action {
-    height: 44px;
-    padding: 0;
-    line-height: 20px;
-  }
-  .nav__action--contact { display: none; }
-
-  /* Hero: headline, description, photo, full-width button */
+  /* Hero (Figma "Hero" 62:87): headline with logo top-right, description,
+     photo, full-width button */
   .hero {
     gap: 28px;
     padding: 40px var(--gutter) 32px;
   }
-  .hero__top,
+  .hero__top { align-items: flex-start; gap: 12px; }
   .hero__overview,
   .hero__content { display: contents; }
-  .hero__logo { display: none; }
+  .hero__logo { width: 72px; height: 72px; }
   .hero__headline {
-    flex: none;
     font-size: 44px;
     line-height: 48px; /* Figma 1.1, rendered at 48px per line */
     letter-spacing: -0.44px;
